@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "config": "^3.3.3",
     "cors": "^2.8.5",
     "express": "^4.16.3",
     "express-fileupload": "^1.2.1",

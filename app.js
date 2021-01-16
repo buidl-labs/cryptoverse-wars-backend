@@ -6,6 +6,20 @@ const fileUpload = require('express-fileupload');
 const { Readable } = require('stream');
 const axios = require('axios');
 
+//Environment variables
+const config = require('config');
+
+let PINATA_API_KEY = config.get('PINATA_API_KEY');
+let PINATA_SECRET_API_KEY = config.get('PINATA_SECRET_API_KEY');
+
+if (!config.get('PINATA_API_KEY')) {
+  throw new Error('Pinata api key must have a value!');
+}
+
+if (!config.get('PINATA_SECRET_API_KEY')) {
+  throw new Error('Pinata secret api key must have a value!');
+}
+
 const app = express();
 const port = process.env.PORT || 3001;
 
@@ -56,8 +70,8 @@ app.post('/api/upload-3d-model-to-ipfs', async (req, res) => {
     url: url,
     maxBodyLength: Infinity,
     headers: {
-      pinata_api_key: '',
-      pinata_secret_api_key: '',
+      pinata_api_key: PINATA_API_KEY,
+      pinata_secret_api_key: PINATA_SECRET_API_KEY,
       ...form.getHeaders(),
     },
     data: form,
