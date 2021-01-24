@@ -1,10 +1,11 @@
 {
   "development": {
-    "username": "manan",
-    "password": "1234",
-    "database": "cryptoverse",
-    "host": "127.0.0.1",
-    "dialect": "postgresql"
+    "username": "<postgres_username>",
+    "password": "<password>",
+    "database": "<database_name>",
+    "host": "<host_url>",
+    "dialect": "postgresql",
+    "logging": false
   },
   "test": {
     "username": "root",
