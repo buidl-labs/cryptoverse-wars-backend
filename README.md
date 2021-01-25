@@ -11,7 +11,7 @@
 
 1. Install all dependencies
 
-    - Run `npm i` 
+    - Run `yarn install` 
 
 2. Set environment variables
     1. Create account from https://pinata.cloud/ to generate the API keys.
@@ -34,9 +34,9 @@
 **Start local build:**
 1. Development server(auto re-load on file change) - 
     ```
-    npm run dev
+    yarn run dev
     ```
 2. Serve without auto re-load - 
     ```
-    npm run start
+    yarn start
     ```
