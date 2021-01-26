@@ -114,7 +114,7 @@ app.listen(port, async () => {
 	*/
 
 	// await sequelize.sync({ force: true });
-	// addChapter(Module, Chapter);
+	// await addChapter(Module, Chapter);
 	// await User.create({xtzAddress: '', email: '', verified: true})
 
 	console.log("Lezzz go 🚀");

@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				unique: true,
 			},
+			name: {
+				type: DataTypes.STRING,
+				unique: true,
+			},
 			xtzAddress: {
 				type: DataTypes.STRING,
 				unique: true,
@@ -41,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			sequelize,
 			modelName: "User",
-			tableName: "user",
+			tableName: "users",
 		}
 	);
 	return User;
