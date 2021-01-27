@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
 
 router.patch("/", async (req, res) => {
 	const { user: user_in_req, email, name } = req.body;
-
+	console.log(user_in_req, email, name);
 	try {
 		let u = await User.findOne({
 			where: { [Op.or]: [{ email }, { name }] },
@@ -74,7 +74,7 @@ router.patch("/", async (req, res) => {
 			res.status(404).json({ error: err.message });
 		}
 	} catch (err) {
-		res.status(400).json({ error: err.message });
+		res.json({ error: err.message });
 	}
 });
 
