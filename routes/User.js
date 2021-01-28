@@ -44,7 +44,8 @@ router.patch("/", async (req, res) => {
 		let u = await User.findOne({
 			where: { [Op.or]: [{ email }, { name }] },
 		});
-		if (u) {
+
+		if (u && user_in_req.xtzAddress !== u.xtzAddress) {
 			const err = u.email == email ? "EMAIL" : "NAME";
 
 			throw new Error(`${err}_ALREADY_USED`);
