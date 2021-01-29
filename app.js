@@ -8,13 +8,14 @@ const { Readable } = require("stream");
 
 const { sequelize, Module, Chapter, User } = require("./models");
 const addChapter = require("./utils/add-chapters");
-const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/User");
 
 // load vars from `.env` file to process.env
-require("dotenv").config();
+if (process.NODE_ENV === "development") require("dotenv").config();
 
 let PINATA_API_KEY = process.env.PINATA_API_KEY;
 let PINATA_SECRET_API_KEY = process.env.PINATA_SECRET_API_KEY;
+
 if (!PINATA_API_KEY) {
 	throw new Error("Pinata api key must have a value!");
 }
