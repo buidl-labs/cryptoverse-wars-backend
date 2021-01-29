@@ -8,6 +8,7 @@ const { Readable } = require("stream");
 
 const { sequelize, Module, Chapter, User } = require("./models");
 const addChapter = require("./utils/add-chapters");
+const userRoutes = require("./routes/user");
 
 // load vars from `.env` file to process.env
 require("dotenv").config();
@@ -97,8 +98,6 @@ app.post("/api/upload-3d-model-to-ipfs", async (req, res) => {
 		});
 	}
 });
-
-const userRoutes = require("./routes/user");
 
 app.use("/user", userRoutes);
 
