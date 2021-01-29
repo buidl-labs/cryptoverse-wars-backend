@@ -25,7 +25,7 @@ const node_env = process.env.NODE_ENV || "development";
 if (node_env === "development") {
 	sequelize = new Sequelize(process.env.DB_URL_DEV);
 } else {
-	sequelize = new Sequelize(process.env.DB_URL_PROD, { logging: true });
+	sequelize = new Sequelize(process.env.DB_URL_PROD, { logging: false });
 }
 
 fs.readdirSync(__dirname)
