@@ -106,15 +106,15 @@ app.get("/", (req, res) => res.send("Hello from cryptoverse wars!"));
 
 app.listen(port, async () => {
 	console.log(`Listening on port ${port}!`);
-	// await sequelize.authenticate();
+	await sequelize.authenticate();
 
 	/*
 		Uncomment the next two lines if you want to drop the current DB and
 		add the data for chapters and modules to the DB.
 	*/
 
-	await sequelize.sync({ alter: true });
-	await addChapter(Module, Chapter);
+	// await sequelize.sync({ force: true });
+	// await addChapter(Module, Chapter);
 	// await User.create({xtzAddress: '', email: '', verified: true})
 
 	console.log("Lezzz go 🚀");

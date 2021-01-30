@@ -15,12 +15,13 @@
 
 2. Set environment variables
     1. Create account from https://pinata.cloud/ to generate the API keys.
-    2. Create a `.env` file and copy the fields required from `.env.sample`.
+    2. Create a `env` file and copy the fields required from `.env.sample`.
     3. Fill-in your API keys from **Pinata** in the `.env` file.
     
 3. Setup the database
     1. Start a **PostgreSQL** database.
-    2. Fill-in your database credentials in `config/config.json` file under the `development` object.
+    2. Add the **PostgreSQL** connection string as `DB_URL_DEV`
+    3. Connection string will look like this - `"postgresql://[user]:[password]@localhost:5432/[db_name]"`
 
 4. Seed the database
     1. In `app.js` - uncomment these two lines in the end - 
