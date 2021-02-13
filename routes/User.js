@@ -6,7 +6,7 @@ const { Op } = require("sequelize");
 
 router.get("/", async (req, res) => {
 	const { uuid, xtz } = req.query;
-	console.log(uuid, xtz);
+	// console.log(uuid, xtz);
 
 	try {
 		const param = uuid ? { uuid } : { xtzAddress: xtz };
@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
 
 router.patch("/", async (req, res) => {
 	const { user: user_in_req, email, name } = req.body;
-	console.log(user_in_req, email, name);
+	// console.log(user_in_req, email, name);
 	try {
 		let u = await User.findOne({
 			where: { [Op.or]: [{ email }, { name }] },
@@ -51,14 +51,14 @@ router.patch("/", async (req, res) => {
 			throw new Error(`${err}_ALREADY_USED`);
 		}
 		try {
-			console.log("user_in_req", user_in_req);
+			// console.log("user_in_req", user_in_req);
 			const user = await User.findOne({
 				where: {
 					uuid: user_in_req.uuid,
 					xtzAddress: user_in_req.xtzAddress,
 				},
 			});
-			console.log("user", user);
+			// console.log("user", user);
 			if (!user) {
 				throw new Error("USER_NOT_FOUND");
 			}
@@ -68,7 +68,7 @@ router.patch("/", async (req, res) => {
 
 			await user.save();
 
-			console.log("user saved.");
+			// console.log("user saved.");
 
 			res.json(user);
 		} catch (err) {
@@ -139,4 +139,72 @@ router.post("/progress", async (req, res) => {
 	}
 });
 
+router.post("/progress/batch", async (req, res) => {
+	// {
+	// 	"module-0": {
+	// 		"chapter-02": true,
+	// 		"chapter-03": true,
+	// 		"chapter-04": true,
+	// 		"chapter-01": true,
+	// 		"chapter-05": true
+	// 	},
+	// 	"module-01": {
+	// 		"chapter-04": true
+	// 	},
+	// 	"module-04": {
+	// 		"chapter-09": true,
+	// 		"chapter-06": true,
+	// 		"chapter-07": true
+	// 	}
+	// }
+
+	/*
+		Steps:
+			1. Find user.
+			2. Add Chapters to user object.
+	*/
+	const { user: user_req, progress } = req.body;
+
+	try {
+		let user = await User.findOne({
+			where: { uuid: user_req.uuid, xtzAddress: user_req.xtzAddress },
+			include: "Chapters",
+		});
+
+		if (!user) {
+			throw new Error("USER_NOT_FOUND");
+		}
+
+		if (!user.verified) {
+			throw new Error("USER_NOT_VERIFIED");
+		}
+
+		let chapters = [];
+		for (module of Object.keys(progress)) {
+			let mod = await Module.findOne({
+				where: { number: parseInt(module.split("-")[1]) },
+			});
+			chapters.push(
+				...(await Chapter.findAll({
+					where: {
+						[Op.and]: [
+							{
+								number: Object.keys(progress[module]).map((c) =>
+									parseInt(c.split("-")[1])
+								),
+								ModuleId: mod.id,
+							},
+						],
+					},
+				}))
+			);
+		}
+		// console.log(JSON.stringify(chapters, null, 2));
+
+		await user.addChapters(chapters);
+		res.json(user);
+	} catch (err) {
+		res.json(err.message);
+	}
+});
 module.exports = router;
