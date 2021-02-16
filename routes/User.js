@@ -6,11 +6,8 @@ const { Op } = require("sequelize");
 
 router.get("/", async (req, res) => {
 	const { uuid, xtz } = req.query;
-<<<<<<< HEAD
+
 	console.log(uuid, xtz);
-=======
-	// console.log(uuid, xtz);
->>>>>>> user-reg
 
 	try {
 		const param = uuid ? { uuid } : { xtzAddress: xtz };
@@ -43,11 +40,8 @@ router.post("/", async (req, res) => {
 
 router.patch("/", async (req, res) => {
 	const { user: user_in_req, email, name } = req.body;
-<<<<<<< HEAD
 	console.log(user_in_req, email, name);
-=======
-	// console.log(user_in_req, email, name);
->>>>>>> user-reg
+
 	try {
 		let u = await User.findOne({
 			where: { [Op.or]: [{ email }, { name }] },
@@ -59,22 +53,16 @@ router.patch("/", async (req, res) => {
 			throw new Error(`${err}_ALREADY_USED`);
 		}
 		try {
-<<<<<<< HEAD
-			console.log("user_in_req", user_in_req);
-=======
 			// console.log("user_in_req", user_in_req);
->>>>>>> user-reg
+
 			const user = await User.findOne({
 				where: {
 					uuid: user_in_req.uuid,
 					xtzAddress: user_in_req.xtzAddress,
 				},
 			});
-<<<<<<< HEAD
-			console.log("user", user);
-=======
 			// console.log("user", user);
->>>>>>> user-reg
+
 			if (!user) {
 				throw new Error("USER_NOT_FOUND");
 			}
@@ -84,11 +72,7 @@ router.patch("/", async (req, res) => {
 
 			await user.save();
 
-<<<<<<< HEAD
-			console.log("user saved.");
-=======
 			// console.log("user saved.");
->>>>>>> user-reg
 
 			res.json(user);
 		} catch (err) {
