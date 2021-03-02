@@ -1,21 +1,26 @@
 const chapters = [
 	{
 		number: 1,
-		name: "essence of blockchain",
+		name: "prologue-0",
 		module_num: 0,
 	},
 	{
 		number: 2,
-		name: "you can build apps on blockchain",
+		name: "essence of blockchain",
 		module_num: 0,
 	},
 	{
 		number: 3,
-		name: "smart contracts",
+		name: "you can build apps on blockchain",
 		module_num: 0,
 	},
 	{
 		number: 4,
+		name: "smart contracts",
+		module_num: 0,
+	},
+	{
+		number: 5,
 		name: "decentralized apps",
 		module_num: 0,
 	},
