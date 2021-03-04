@@ -49,7 +49,6 @@ app.use(express.json());
 // logging middleware
 app.use(morgan("tiny"));
 
-
 app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
 	const { artifactURI, displayURI } = req.body;
 	if (!artifactURI || !displayURI) {
@@ -100,7 +99,6 @@ app.post("/api/upload-image-to-ipfs", async (req, res) => {
 	form.append("file", botImg, {
 		filename: "cryptobot.png",
 	});
-
 
 	// console.log(new Image(botImg));
 
