@@ -50,10 +50,10 @@ app.use(express.json());
 app.use(morgan("tiny"));
 
 app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
-	const { artifactURI, displayURI } = req.body;
-	if (!artifactURI || !displayURI) {
+	const { artifactURI, displayURI, tokenID } = req.body;
+	if (!artifactURI || !displayURI || !tokenID) {
 		res.status(400).json({
-			error: "artifactURI or displayURI is missing.",
+			error: "artifactURI, displayURI, or tokenID is missing.",
 		});
 	}
 	const metadata = {
@@ -69,6 +69,7 @@ app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
 		externalUri: "https://cryptocodeschool.in/tezos/",
 		artifactUri: `ipfs://${artifactURI}`,
 		displayUri: `ipfs://${displayURI}`,
+		tokenId: tokenID,
 	};
 
 	const URL = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
