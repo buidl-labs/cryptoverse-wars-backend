@@ -52,10 +52,18 @@ app.use(morgan("tiny"));
 app.post("/api/upload-image-to-ipfs", async (req, res) => {
 	const botImg = req.files.file.data;
 
+	const buffer = Buffer.from(botImg, "base64");
+	const readable = new Readable();
+	readable._read = () => {}; // _read is required but you can noop it
+	readable.push(buffer);
+	readable.push(null);
+	console.log(readable);
 	const form = new FormData();
 	form.append("file", botImg, {
-		filename: "image.png",
+		filename: "cryptobot.png",
 	});
+
+	// console.log(new Image(botImg));
 
 	const url = "https://api.pinata.cloud/pinning/pinFileToIPFS";
 
@@ -91,7 +99,6 @@ app.post("/api/upload-image-to-ipfs", async (req, res) => {
 
 app.post("/api/upload-3d-model-to-ipfs", async (req, res) => {
 	//   console.log(req.body);
-	//   console.log(req.files.file.data);
 
 	// Compress 3d model
 	const bot = await processGlb(req.files.file.data, glbCompressionOptions);
