@@ -49,6 +49,49 @@ app.use(express.json());
 // logging middleware
 app.use(morgan("tiny"));
 
+app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
+	const { artifactURI, displayURI } = req.body;
+	if (!artifactURI || !displayURI) {
+		res.status(400).json({
+			error: "artifactURI or displayURI is missing.",
+		});
+	}
+	const metadata = {
+		name: "3D Cryptobot",
+		symbol: "CB",
+		decimals: 0,
+		description: "NFT 3d cryptobot",
+		isBooleanAmount: true,
+		isTransferable: true,
+		shouldPreferSymbol: false,
+		language: "en",
+		tags: ["3D model", "Collectables", "NFT", "Cryptobot"],
+		attributes: [
+			{
+				color_schema: { "": "" },
+				body_parts_type: { "": "" },
+			},
+		],
+		externalUri: "https://cryptocodeschool.in/tezos/",
+		artifactUri: artifactURI,
+		displayUri: displayURI,
+	};
+
+	const URL = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
+	const result = await axios.post(URL, metadata, {
+		headers: {
+			pinata_api_key: PINATA_API_KEY,
+			pinata_secret_api_key: PINATA_SECRET_API_KEY,
+		},
+	});
+	const data = await result.data;
+
+	res.json({
+		ipfsHash: data.IpfsHash,
+		timestamp: data.Timestamp,
+	});
+});
+
 app.post("/api/upload-image-to-ipfs", async (req, res) => {
 	const botImg = req.files.file.data;
 
