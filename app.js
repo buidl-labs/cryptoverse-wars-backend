@@ -49,6 +49,46 @@ app.use(express.json());
 // logging middleware
 app.use(morgan("tiny"));
 
+app.post("/api/upload-image-to-ipfs", async (req, res) => {
+	const botImg = req.files.file.data;
+
+	const form = new FormData();
+	form.append("file", botImg, {
+		filename: "image.png",
+	});
+
+	const url = "https://api.pinata.cloud/pinning/pinFileToIPFS";
+
+	var config = {
+		method: "post",
+		url: url,
+		maxBodyLength: Infinity,
+		headers: {
+			pinata_api_key: PINATA_API_KEY,
+			pinata_secret_api_key: PINATA_SECRET_API_KEY,
+			...form.getHeaders(),
+		},
+		data: form,
+	};
+
+	try {
+		const output = await axios(config);
+
+		res.send({
+			success: true,
+			body: {
+				ipfsHash: output.data.IpfsHash,
+				timestamp: output.data.Timestamp,
+			},
+		});
+	} catch (err) {
+		res.status(400).send({
+			success: false,
+			error: "Error uploading bot image to IPFS",
+		});
+	}
+});
+
 app.post("/api/upload-3d-model-to-ipfs", async (req, res) => {
 	//   console.log(req.body);
 	//   console.log(req.files.file.data);
@@ -113,8 +153,8 @@ app.listen(port, async () => {
 		add the data for chapters and modules to the DB.
 	*/
 
-	await sequelize.sync({ force: true });
-	await addChapter(Module, Chapter);
+	await sequelize.sync({ alter: true });
+	// await addChapter(Module, Chapter);
 	// await User.create({xtzAddress: '', email: '', verified: true})
 
 	console.log("Lezzz go 🚀");
