@@ -54,6 +54,7 @@ function char2Bytes(str) {
 }
 
 app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
+	console.log("req.body", req.body);
 	const { artifactURI, displayURI } = req.body;
 	if (!artifactURI || !displayURI) {
 		res.status(400).json({
