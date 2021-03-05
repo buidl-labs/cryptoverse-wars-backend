@@ -49,6 +49,10 @@ app.use(express.json());
 // logging middleware
 app.use(morgan("tiny"));
 
+function char2Bytes(str) {
+	return Buffer.from(str, "utf8").toString("hex");
+}
+
 app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
 	const { artifactURI, displayURI, tokenID } = req.body;
 	if (!artifactURI || !displayURI || !tokenID) {
@@ -83,7 +87,7 @@ app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
 		const data = await result.data;
 
 		res.json({
-			ipfsHash: data.IpfsHash,
+			ipfsHash: char2Bytes(data.IpfsHash),
 			timestamp: data.Timestamp,
 		});
 	} catch (err) {
