@@ -73,18 +73,25 @@ app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
 	};
 
 	const URL = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
-	const result = await axios.post(URL, metadata, {
-		headers: {
-			pinata_api_key: PINATA_API_KEY,
-			pinata_secret_api_key: PINATA_SECRET_API_KEY,
-		},
-	});
-	const data = await result.data;
+	try {
+		const result = await axios.post(URL, metadata, {
+			headers: {
+				pinata_api_key: PINATA_API_KEY,
+				pinata_secret_api_key: PINATA_SECRET_API_KEY,
+			},
+		});
+		const data = await result.data;
 
-	res.json({
-		ipfsHash: data.IpfsHash,
-		timestamp: data.Timestamp,
-	});
+		res.json({
+			ipfsHash: data.IpfsHash,
+			timestamp: data.Timestamp,
+		});
+	} catch (err) {
+		res.status(500).json({
+			success: false,
+			error: "Error uploading JSON metadata to IPFS",
+		});
+	}
 });
 
 app.post("/api/upload-image-to-ipfs", async (req, res) => {
