@@ -86,7 +86,7 @@ app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
 		const data = await result.data;
 
 		res.json({
-			ipfsHash: char2Bytes(data.IpfsHash),
+			ipfsHash: char2Bytes(`ipfs://${data.IpfsHash}`),
 			timestamp: data.Timestamp,
 		});
 	} catch (err) {
