@@ -54,10 +54,10 @@ function char2Bytes(str) {
 }
 
 app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
-	const { artifactURI, displayURI, tokenID } = req.body;
-	if (!artifactURI || !displayURI || !tokenID) {
+	const { artifactURI, displayURI } = req.body;
+	if (!artifactURI || !displayURI) {
 		res.status(400).json({
-			error: "artifactURI, displayURI, or tokenID is missing.",
+			error: "artifactURI, displayURI is missing.",
 		});
 	}
 	const metadata = {
@@ -73,7 +73,6 @@ app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
 		externalUri: "https://cryptocodeschool.in/tezos/",
 		artifactUri: `ipfs://${artifactURI}`,
 		displayUri: `ipfs://${displayURI}`,
-		tokenId: tokenID,
 	};
 
 	const URL = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
