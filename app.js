@@ -73,6 +73,7 @@ app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
 		externalUri: "https://cryptocodeschool.in/tezos/",
 		artifactUri: `ipfs://${artifactURI}`,
 		displayUri: `ipfs://${displayURI}`,
+		thumbnailUri: "ipfs://QmXqZLz5UyEoYsn41CM9jf9cN2XurLQ8NML8hVTea2FnqT",
 	};
 
 	const URL = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
