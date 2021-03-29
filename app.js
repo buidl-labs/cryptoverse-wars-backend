@@ -54,10 +54,16 @@ function char2Bytes(str) {
 }
 
 app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
-	const { artifactURI, displayURI } = req.body;
+	const { artifactURI, displayURI, xtzAddress } = req.body;
 	if (!artifactURI || !displayURI) {
 		res.status(400).json({
 			error: "artifactURI, displayURI is missing.",
+		});
+	}
+
+	if (!xtzAddress) {
+		res.status(400).json({
+			error: "Creator address is missing.",
 		});
 	}
 	const metadata = {
@@ -75,6 +81,7 @@ app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
 		displayUri: `ipfs://${displayURI}`,
 		thumbnailUri: "ipfs://QmXqZLz5UyEoYsn41CM9jf9cN2XurLQ8NML8hVTea2FnqT",
 		date: new Date().toString(),
+		creators: [xtzAddress],
 	};
 
 	const URL = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
