@@ -102,7 +102,7 @@ app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
 app.post("/api/upload-image-to-ipfs", async (req, res) => {
 	const botImg = req.files.file.data;
 
-	const buffer = Buffer.from(botImg, "base64");
+	const buffer = Buffer.from(botImg, "binary");
 	const readable = new Readable();
 	readable._read = () => {}; // _read is required but you can noop it
 	readable.push(buffer);
@@ -110,7 +110,7 @@ app.post("/api/upload-image-to-ipfs", async (req, res) => {
 	console.log(readable);
 	const form = new FormData();
 	form.append("file", botImg, {
-		filename: "cryptobot.png",
+		filename: "cryptobot.jpeg",
 	});
 
 	// console.log(new Image(botImg));
