@@ -206,8 +206,8 @@ app.post("/api/upload-3d-model-to-ipfs", async (req, res) => {
 		});
 	} catch (err) {
 		res.status(400).send({
-			success: false,
 			error: "Error uploading custom 3D Model to IPFS",
+			success: false,
 		});
 	}
 });
@@ -226,6 +226,15 @@ app.listen(port, async () => {
 	*/
 
 	await sequelize.sync({ alter: true });
+
+	await Module.destroy({
+		where: {},
+		truncate: "CASCADE",
+	});
+	await Chapter.destroy({
+		where: {},
+		truncate: "CASCADE",
+	});
 	await addChapter(Module, Chapter);
 
 	console.log("Lezzz go 🚀");
