@@ -102,7 +102,7 @@ app.post("/api/upload-image-to-ipfs", async (req, res) => {
 	readable._read = () => {}; // _read is required but you can noop it
 	readable.push(buffer);
 	readable.push(null);
-	console.log(readable);
+	// console.log(readable);
 	const form = new FormData();
 	form.append("file", botImg, {
 		filename: "cryptobot.png",
@@ -144,12 +144,20 @@ app.post("/api/upload-image-to-ipfs", async (req, res) => {
 
 app.post("/api/upload-3d-model-to-ipfs", async (req, res) => {
 	//   console.log(req.body);
-
+	const sizeBeforeCompression = Buffer.byteLength(req.files.file.data);
 	// Compress 3d model
 	const bot = await processGlb(req.files.file.data, glbCompressionOptions);
 
 	// Convert buffer into readable stream
 	const buffer = Buffer.from(bot.glb, "binary");
+	const sizeAfterCompression = Buffer.byteLength(buffer);
+	console.log("Size before compression", `${sizeBeforeCompression}bytes`);
+	console.log("Size after compression", `${sizeAfterCompression}bytes`);
+	console.log(
+		"Size reduced by",
+		100 - Math.round((sizeAfterCompression / sizeBeforeCompression) * 100),
+		"%"
+	);
 	const readable = new Readable();
 	readable._read = () => {}; // _read is required but you can noop it
 	readable.push(buffer);
