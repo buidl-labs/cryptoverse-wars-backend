@@ -1,10 +1,8 @@
 module.exports = async function addChapter(Module, Chapter) {
 	const modules = require("../data/modules");
 	const chapters = require("../data/chapters");
-	console.log(modules);
-	for (module of modules) {
-		await Module.create(module);
-	}
+
+	await Module.bulkCreate(modules);
 
 	const modules_from_db = await Module.findAll({ order: [["number"]] });
 
