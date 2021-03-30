@@ -49,11 +49,21 @@ app.use(express.json());
 // logging middleware
 app.use(morgan("tiny"));
 
+function char2Bytes(str) {
+	return Buffer.from(str, "utf8").toString("hex");
+}
+
 app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
-	const { artifactURI, displayURI, tokenID } = req.body;
-	if (!artifactURI || !displayURI || !tokenID) {
+	const { artifactURI, displayURI, xtzAddress } = req.body;
+	if (!artifactURI || !displayURI) {
 		res.status(400).json({
-			error: "artifactURI, displayURI, or tokenID is missing.",
+			error: "artifactURI, displayURI is missing.",
+		});
+	}
+
+	if (!xtzAddress) {
+		res.status(400).json({
+			error: "Creator address is missing.",
 		});
 	}
 	const metadata = {
@@ -69,7 +79,9 @@ app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
 		externalUri: "https://cryptocodeschool.in/tezos/",
 		artifactUri: `ipfs://${artifactURI}`,
 		displayUri: `ipfs://${displayURI}`,
-		tokenId: tokenID,
+		thumbnailUri: "ipfs://QmXqZLz5UyEoYsn41CM9jf9cN2XurLQ8NML8hVTea2FnqT",
+		date: new Date().toString(),
+		creators: [xtzAddress],
 	};
 
 	const URL = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
@@ -83,7 +95,7 @@ app.post("/api/upload-json-metadata-to-ipfs", async (req, res) => {
 		const data = await result.data;
 
 		res.json({
-			ipfsHash: data.IpfsHash,
+			ipfsHash: char2Bytes(`ipfs://${data.IpfsHash}`),
 			timestamp: data.Timestamp,
 		});
 	} catch (err) {
