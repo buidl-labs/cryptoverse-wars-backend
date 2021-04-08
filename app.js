@@ -9,6 +9,7 @@ const { Readable } = require("stream");
 const { sequelize, Module, Chapter, User } = require("./models");
 const addChapter = require("./utils/add-chapters");
 const userRoutes = require("./routes/User");
+const cryptobotRoutes = require("./routes/Cryptobot");
 
 // load vars from `.env` file to process.env
 if (process.NODE_ENV === "development") require("dotenv").config();
@@ -213,14 +214,15 @@ app.post("/api/upload-3d-model-to-ipfs", async (req, res) => {
 });
 
 app.use("/user", userRoutes);
+app.use("/cryptobot", cryptobotRoutes);
 
 app.get("/", (req, res) => res.send("Hello from cryptoverse wars!"));
 
 app.listen(port, async () => {
 	console.log(`Listening on port ${port}!`);
-	await sequelize.authenticate();
+	// await sequelize.authenticate();
 
-	// await sequelize.sync({ alter: true });
+	await sequelize.sync();
 
 	// await Module.destroy({
 	// 	where: {},
