@@ -9,8 +9,6 @@ const { Readable } = require("stream");
 router.get("/", async (req, res) => {
 	const { id } = req.query;
 
-	res.json({ id });
-
 	try {
 		const bot = await Cryptobot.findOne({ where: { token_id: id } });
 		if (!bot) {
@@ -19,6 +17,18 @@ router.get("/", async (req, res) => {
 		res.json(bot);
 	} catch {
 		res.status(404).json({ error: "CRYPTOBOT_NOT_FOUND" });
+	}
+});
+
+router.get("/all", async (req, res) => {
+	try {
+		const bots = await Cryptobot.findAll();
+		if (!bots) {
+			throw new Error();
+		}
+		res.json(bots);
+	} catch (err) {
+		res.status(404).json({ error: err.toString() });
 	}
 });
 
