@@ -35,11 +35,11 @@ router.get("/all", async (req, res) => {
 router.post("/", async (req, res) => {
 	const { id, imageURI } = req.body;
 
-	if (!imageURI.includes("ipfs://"))
-		return res
-			.status(400)
-			.json({ error: "imageURI must start with ipfs://" });
 	try {
+		if (!imageURI.includes("ipfs://"))
+			return res
+				.status(400)
+				.json({ error: "imageURI must start with ipfs://" });
 		console.log("ID", id);
 		let bot = await Cryptobot.findOne({ where: { token_id: id } });
 
