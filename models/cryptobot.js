@@ -25,6 +25,9 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				unique: true,
 			},
+			mintedBy: {
+				type: DataTypes.STRING,
+			},
 		},
 		{
 			sequelize,

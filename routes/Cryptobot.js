@@ -5,6 +5,7 @@ const { Cryptobot } = require("../models");
 const FormData = require("form-data");
 const axios = require("axios");
 const { Readable } = require("stream");
+const { findCreatorByTokenId } = require("../utils/api-helpers");
 
 router.get("/", async (req, res) => {
 	const { id } = req.query;
@@ -44,11 +45,18 @@ router.post("/", async (req, res) => {
 		let bot = await Cryptobot.findOne({ where: { token_id: id } });
 
 		if (!bot) {
-			bot = await Cryptobot.create({ token_id: id, imageURI: imageURI });
+			const address = await findCreatorByTokenId(id);
+			console.log(address);
+			bot = await Cryptobot.create({
+				token_id: id,
+				imageURI: imageURI,
+				mintedBy: address,
+			});
 			return res.status(201).json(bot);
 		}
 		return res.json(bot);
 	} catch (err) {
+		console.log(err);
 		return res.status(500).json(err.toString());
 	}
 });

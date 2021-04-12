@@ -222,7 +222,7 @@ app.listen(port, async () => {
 	console.log(`Listening on port ${port}!`);
 	// await sequelize.authenticate();
 
-	await sequelize.sync();
+	await sequelize.sync({ alter: true });
 
 	// await Module.destroy({
 	// 	where: {},
