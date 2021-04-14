@@ -52,6 +52,7 @@ router.post("/", async (req, res) => {
 				imageURI: imageURI,
 				mintedBy: address,
 			});
+			console.log(bot);
 			return res.status(201).json(bot);
 		}
 		return res.json(bot);
