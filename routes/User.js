@@ -85,6 +85,7 @@ router.patch("/", async (req, res) => {
 
 router.post("/verify", async (req, res) => {
 	const { token } = req.body;
+	console.log(token);
 	try {
 		const { email } = await magic.users.getMetadataByToken(token);
 		try {
@@ -100,6 +101,7 @@ router.post("/verify", async (req, res) => {
 			return;
 		}
 	} catch (err) {
+		console.log(err.message);
 		res.status(500).json({ error: err.message });
 	}
 });
