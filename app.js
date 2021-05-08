@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const FormData = require("form-data");
 const { Readable } = require("stream");
 
-const { sequelize, Module, Chapter, User } = require("./models");
+const { sequelize, Module, Chapter, User, Cryptobot } = require("./models");
 const addChapter = require("./utils/add-chapters");
 const userRoutes = require("./routes/User");
 const cryptobotRoutes = require("./routes/Cryptobot");
@@ -223,16 +223,6 @@ app.listen(port, async () => {
 	// await sequelize.authenticate();
 
 	await sequelize.sync({ alter: true });
-
-	// await Module.destroy({
-	// 	where: {},
-	// 	truncate: "CASCADE",
-	// });
-	// await Chapter.destroy({
-	// 	where: {},
-	// 	truncate: "CASCADE",
-	// });
-	// await addChapter(Module, Chapter);
 
 	console.log("Lezzz go 🚀");
 });

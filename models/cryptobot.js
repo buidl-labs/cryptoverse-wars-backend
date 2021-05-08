@@ -7,10 +7,9 @@ module.exports = (sequelize, DataTypes) => {
 		 * This method is not a part of Sequelize lifecycle.
 		 * The `models/index` file will call this method automatically.
 		 */
-		// static associate({ Module, User }) {
-		// 	this.belongsTo(Module);
-		// 	this.belongsToMany(User, { through: "ChaptersCompleted" });
-		// }
+		static associate({ User }) {
+			this.belongsTo(User);
+		}
 	}
 
 	Cryptobot.init(
@@ -22,11 +21,8 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			imageURI: {
 				type: DataTypes.STRING,
-				allowNull: false,
+				// allowNull: false,
 				unique: true,
-			},
-			mintedBy: {
-				type: DataTypes.STRING,
 			},
 		},
 		{
